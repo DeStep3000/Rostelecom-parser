@@ -1,0 +1,8 @@
+services:
+  parser:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: rialcom-parser:local
+    volumes:
+      - ./output:/app/output
