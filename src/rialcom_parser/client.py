@@ -1,9 +1,8 @@
 from typing import Final
 
-from playwright.sync_api import Page
 from playwright.sync_api import Error as PlaywrightError
+from playwright.sync_api import Page, sync_playwright
 from playwright.sync_api import TimeoutError as PlaywrightTimeoutError
-from playwright.sync_api import sync_playwright
 
 from rialcom_parser.cdp import resolve_cdp_connection
 from rialcom_parser.exceptions import SourceFetchError
@@ -87,9 +86,7 @@ class RialcomBrowserClient:
         if response is None:
             raise SourceFetchError("Браузер не получил ответ от страницы с тарифами")
         if not response.ok:
-            raise SourceFetchError(
-                f"Страница с тарифами вернула HTTP-статус {response.status}"
-            )
+            raise SourceFetchError(f"Страница с тарифами вернула HTTP-статус {response.status}")
 
         page.locator("#accordionTariff").wait_for(state="attached")
         self._open_tariff_section(page, "Многоквартирные дома")

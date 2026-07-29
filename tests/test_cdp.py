@@ -8,11 +8,7 @@ def test_websocket_endpoint_is_rewritten_for_docker_network() -> None:
     response = MagicMock()
     response.__enter__.return_value = response
     response.read.return_value = json.dumps(
-        {
-            "webSocketDebuggerUrl": (
-                "ws://127.0.0.1:9222/devtools/browser/407f8e4a-5b0a-4226"
-            )
-        }
+        {"webSocketDebuggerUrl": ("ws://127.0.0.1:9222/devtools/browser/407f8e4a-5b0a-4226")}
     ).encode()
 
     with patch("rialcom_parser.cdp.urlopen", return_value=response) as mocked_urlopen:

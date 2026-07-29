@@ -43,16 +43,14 @@ def test_parse_all_tariff_groups(tariffs_html: str) -> None:
 def test_private_tariffs_receive_channels_from_apartment_table(tariffs_html: str) -> None:
     tariffs = RialcomTariffParser().parse(tariffs_html)
 
-    private_combo = [
-        tariff for tariff in tariffs if tariff.name.endswith("_ч")
-    ]
+    private_combo = [tariff for tariff in tariffs if tariff.name.endswith("_ч")]
 
-    assert {tariff.channels for tariff in private_combo if tariff.name.startswith("Комбо Лайт")} == {
-        165
-    }
-    assert {tariff.channels for tariff in private_combo if tariff.name.startswith("Комбо Макс")} == {
-        298
-    }
+    assert {
+        tariff.channels for tariff in private_combo if tariff.name.startswith("Комбо Лайт")
+    } == {165}
+    assert {
+        tariff.channels for tariff in private_combo if tariff.name.startswith("Комбо Макс")
+    } == {298}
 
 
 def test_unknown_private_plan_causes_structure_error(tariffs_html: str) -> None:

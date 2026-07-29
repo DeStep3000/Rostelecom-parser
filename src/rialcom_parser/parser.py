@@ -85,7 +85,9 @@ class RialcomTariffParser:
             row_label = self._text(cells[0])
             channels_match = _CHANNELS_RE.search(row_label)
             if channels_match is None:
-                raise SourceStructureError(f'Не найдено количество каналов для тарифа "{row_label}"')
+                raise SourceStructureError(
+                    f'Не найдено количество каналов для тарифа "{row_label}"'
+                )
 
             channels = int(channels_match.group(1))
             plan_name = self._normalize_text(_CHANNELS_RE.sub("", row_label))
