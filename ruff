@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+set -eu
+
+SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+cd "$SCRIPT_DIR"
+
+if ! command -v uv >/dev/null 2>&1; then
+    echo "Error: \`uv\` was not found in PATH." >&2
+    exit 1
+fi
+
+if [ "$#" -eq 0 ]; then
+    set -- .
+fi
+
+echo "\$ uv run ruff format $*"
+uv run ruff format "$@"
+
+echo "\$ uv run ruff check $* --fix"
+uv run ruff check "$@" --fix
