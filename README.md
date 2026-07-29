@@ -11,11 +11,19 @@
 - интернет для частных домов и коттеджей;
 - интернет и интерактивное ТВ для частных домов и коттеджей.
 
-Количество тарифов не зафиксировано в коде и зависит от текущего содержимого сайта.
+## Оглавление
+
+- [Стек](#стек)
+- [Установка](#установка)
+- [Запуск](#запуск)
+- [Запуск в Docker](#запуск-в-docker)
+- [Проверки](#проверки)
+- [Структура проекта](#структура-проекта)
+- [Формат результата](#формат-результата)
 
 ## Стек
 
-- Python 3.10+;
+- Python 3.12;
 - uv;
 - Playwright и Chromium;
 - Beautiful Soup;
@@ -31,7 +39,7 @@
 [установленный uv](https://docs.astral.sh/uv/getting-started/installation/).
 
 ```shell
-git clone <адрес-репозитория>
+git clone https://github.com/DeStep3000/Rostelecom-parser.git
 cd Rostelecom-parser
 uv sync --dev
 uv run playwright install chromium
