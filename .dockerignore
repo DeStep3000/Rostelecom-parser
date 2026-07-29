@@ -1,0 +1,14 @@
+.git
+.github
+.idea
+.venv
+.mypy_cache
+.pytest_cache
+.ruff_cache
+__pycache__
+output
+tests
+*.pyc
+*.pyo
+*.xlsx
+*.pdf
