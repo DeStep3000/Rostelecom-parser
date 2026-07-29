@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from rialcom_parser.client import RialcomClient
+from rialcom_parser.client import RialcomBrowserClient
 from rialcom_parser.exporter import ExcelTariffExporter
 from rialcom_parser.parser import RialcomTariffParser
 
@@ -10,7 +10,7 @@ class TariffExportService:
 
     def __init__(
         self,
-        client: RialcomClient,
+        client: RialcomBrowserClient,
         parser: RialcomTariffParser,
         exporter: ExcelTariffExporter,
     ) -> None:

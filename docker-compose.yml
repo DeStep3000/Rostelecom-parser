@@ -6,6 +6,17 @@ services:
       dockerfile: Dockerfile
       args:
         PYPI_INDEX_URL: ${PYPI_INDEX_URL:-https://pypi.org/simple}
+    environment:
+      RIALCOM_BROWSER_CDP_URL: http://browserless:9222
     restart: "no"
     volumes:
       - ./output:/app/output
+    depends_on:
+      browserless:
+        condition: service_started
+
+  browserless:
+    image: chromedp/headless-shell:latest
+    init: true
+    shm_size: 1gb
+    restart: unless-stopped

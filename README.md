@@ -17,7 +17,8 @@
 
 - Python 3.10+;
 - uv;
-- requests и Beautiful Soup;
+- Playwright и Chromium;
+- Beautiful Soup;
 - openpyxl;
 - pytest;
 - mypy;
@@ -33,6 +34,7 @@
 git clone <адрес-репозитория>
 cd Rostelecom-parser
 uv sync --dev
+uv run playwright install chromium
 ```
 
 Команда одинаково работает в терминале Linux, macOS и Windows PowerShell.
@@ -47,12 +49,27 @@ uv run rialcom-parser
 
 Готовый документ появится по пути `output/rialcom_tariffs.xlsx`.
 
+Чтобы увидеть действия робота в обычном окне Chromium:
+
+```shell
+uv run rialcom-parser --headed
+```
+
 Можно указать другое имя файла, адрес страницы и тайм-аут запроса:
 
 ```shell
 uv run rialcom-parser --output result.xlsx --timeout 30
 uv run rialcom-parser --url https://www.rialcom.ru/internet_tariffs/
 ```
+
+Если браузер в конкретной системе не может восстановить неполную цепочку
+сертификатов RialCom, проверку можно отключить только для этого запуска:
+
+```shell
+uv run rialcom-parser --ignore-https-errors
+```
+
+Этот параметр следует использовать только для известной страницы из задания.
 
 Справка по всем параметрам:
 
@@ -76,6 +93,14 @@ docker compose build --no-cache
 docker compose run --rm parser
 ```
 
+В Docker основной контейнер подключается по CDP к отдельному headless Chromium.
+Локально отдельный сервис не нужен: Playwright запускает установленный браузер
+самостоятельно.
+
+CDP-адаптер также подменяет служебный заголовок `Host` на `127.0.0.1:9222`.
+Это необходимо, потому что Chromium отклоняет WebSocket-подключения с Docker-именем
+сервиса в заголовке `Host`.
+
 ## Проверки
 
 ```shell
@@ -92,13 +117,16 @@ uv run ruff format --check .
 
 ```text
 src/rialcom_parser/
-├── client.py       # загрузка страницы
+├── client.py       # управление Chromium и действия на странице
+├── cdp.py          # подключение к браузеру в Docker
 ├── parser.py       # разбор четырех групп тарифов
 ├── exporter.py     # формирование Excel
 ├── service.py      # общий сценарий работы
 └── cli.py          # аргументы командной строки
 tests/
 ├── fixtures/       # локальная копия структуры таблиц
+├── test_cdp.py
+├── test_client.py
 ├── test_parser.py
 └── test_exporter.py
 ```
